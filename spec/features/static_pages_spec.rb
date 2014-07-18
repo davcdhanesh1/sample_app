@@ -43,7 +43,6 @@ RSpec.describe 'StaticPages', :type => :feature do
         visit static_pages_about_path
         expect(page).to have_title(expected_title)
       end
-
     end
 
   end
