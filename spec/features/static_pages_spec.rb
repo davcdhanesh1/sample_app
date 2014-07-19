@@ -7,7 +7,10 @@ RSpec.describe 'StaticPages', :type => :feature do
 
     describe 'GET /home page' do
       it 'should load home page and display welcome message' do
-        expected_msg = 'Hi Welcome to Home Page of Sample App'
+        expected_msg = 'Sample App Home Help About Contact Welcome to Sample App
+                        This app is just to demonstrate how to develop using Ruby on Rails
+                        Sign up now!
+                        This site is maintained by Tripartite Inc. @copyright 2016'
         visit static_pages_home_path
         expect(page).to have_content(expected_msg)
       end
