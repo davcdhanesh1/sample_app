@@ -47,6 +47,14 @@ RSpec.describe 'StaticPages', :type => :feature do
       end
     end
 
+    describe 'GET /contact page' do
+      it 'should load contact page and display contact info' do
+        visit 'static_pages/contact'
+        expected_msg = 'This is contact page'
+        expect(page).to have_content(expected_msg)
+      end
+    end
+
   end
 end
 
