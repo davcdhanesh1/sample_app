@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe 'StaticPages', :type => :feature do
   describe 'GET /static_pages' do
 
+    let(:base_title) {'sample app |'}
+
     describe 'GET /home page' do
       it 'should load home page and display welcome message' do
         expected_msg = 'Hi Welcome to Home Page of Sample App'
@@ -10,8 +12,8 @@ RSpec.describe 'StaticPages', :type => :feature do
         expect(page).to have_content(expected_msg)
       end
 
-      it "should have title as 'sample app | home' " do
-        expected_title = 'sample app | Home'
+      it "should have title as 'sample app | Home' " do
+        expected_title = "#{base_title} Home"
         visit static_pages_home_url
         expect(page).to have_title(expected_title)
       end
@@ -25,7 +27,7 @@ RSpec.describe 'StaticPages', :type => :feature do
       end
 
       it "should have title as 'sample app | Help' " do
-        expected_title = 'sample app | Help'
+        expected_title = "#{base_title} Help"
         visit static_pages_help_path
         expect(page).to have_title(expected_title)
       end
@@ -39,7 +41,7 @@ RSpec.describe 'StaticPages', :type => :feature do
       end
 
       it "should have title as 'sample app | About' " do
-        expected_title = 'sample app | About'
+        expected_title = "#{base_title} About"
         visit static_pages_about_path
         expect(page).to have_title(expected_title)
       end
