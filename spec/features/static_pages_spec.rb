@@ -37,7 +37,7 @@ RSpec.describe 'StaticPages', :type => :feature do
 
       it 'should have title as sample app | Help' do
         expected_title = "#{base_title} Help"
-        have_title(expected_title)
+        should have_title(expected_title)
       end
     end
 
