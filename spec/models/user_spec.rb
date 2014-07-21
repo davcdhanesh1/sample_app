@@ -1,12 +1,13 @@
 require 'rails_helper'
+require 'spec_helper'
 
 RSpec.describe User, :type => :model do
 
   describe User do
 
     before(:each) do
-      @user = User.new({ :name => 'testuser', :email => 'testuser@gmail.com', :password_confirmation => 'foobar',
-                         :password => 'foobar' })
+      @user = User.new({ :name => 'testuser', :email => 'testuser@gmail.com', :password_confirmation => '12345678',
+                         :password => '12345678' })
     end
 
     subject { @user }
@@ -31,6 +32,13 @@ RSpec.describe User, :type => :model do
       should be_invalid
       @user.name = 'X'*7
       should be_invalid
+    end
+
+    it 'email address should be saved as downcase' do
+      MIXED_EMAIL = 'FooBARaksjfk@gamil.CoM'
+      @user.email = MIXED_EMAIL
+      @user.save
+      expect(@user.reload.email).to eq MIXED_EMAIL.downcase
     end
 
     describe 'email address should be of format /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i' do
@@ -61,22 +69,50 @@ RSpec.describe User, :type => :model do
 
     end
 
-    # describe 'password verification' do
-    #   it 'should have password, password_digest, password_confirmation' do
-    #     should respond_to(:password)
-    #     should respond_to(:password_digest)
-    #     should respond_to(:password_confirmation)
-    #   end
-    #   it 'should have invalid address when password_confirmation doesnt match password' do
-    #     @user.password_confirmation = 'mismatch'
-    #     should be_invalid
-    #   end
-    #   it 'should not have empty password' do
-    #     @user = User.new({ :name => 'testuser', :email => 'testuser@gmail.com', :password_confirmation => 'i',
-    #                        :password => 'i' })
-    #     should be_valid
-    #   end
-    # end
+    describe 'password format verification' do
+      before { @user.save }
+
+      it 'should have password, password_digest, password_confirmation' do
+        should respond_to(:password)
+        should respond_to(:password_digest)
+        should respond_to(:password_confirmation)
+        should be_valid
+      end
+
+      it 'should be invalid when password_confirmation does not match password' do
+        @user.password_confirmation = 'mismatch'
+        should be_invalid
+      end
+
+      it 'should not have empty password' do
+        @user = User.new({ :name => 'testuser', :email => 'testuser@gmail.com', :password_confirmation => 'i',
+                           :password => '' })
+        should be_invalid
+      end
+
+      it 'should have minimum length of 8 chars' do
+        @user.password = @user.password_confirmation = 'X'*7
+        should be_invalid
+      end
+
+    end
+
+    describe 'user authentication using password' do
+      before { @user.save }
+
+      let(:found_user) { User.find_by_email(@user.email) }
+
+      it { should respond_to(:authenticate) }
+
+      describe 'should authenticate user with valid password' do
+        it { should eq found_user.authenticate(@user.password) }
+      end
+
+      describe 'should not authenticate user with invalid password' do
+        it { should_not eq found_user.authenticate('Other than @user password') }
+      end
+
+    end
 
   end
 end
