@@ -11,13 +11,13 @@ RSpec.describe 'UserPages', :type => :feature do
     describe 'GET /users/new' do
 
       before(:each) do
-        visit users_new_path
+        visit users_signup_path
         Capybara.exact = true
       end
 
       it 'should load users/new page and display This is new User page for this Sample App' do
-        visit users_new_path
-        expected_body = 'This is New User page for this Sample App'
+        visit users_signup_path
+        expected_body = 'This is sign up page for this Sample App'
         should have_content("#{header} #{expected_body} #{footer}")
       end
 
