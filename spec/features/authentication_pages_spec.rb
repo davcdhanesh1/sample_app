@@ -61,24 +61,8 @@ RSpec.describe "AuthenticationPages", :type => :feature do
 
       end
 
-      context 'valid information is submitted' do
-
-        before(:each) do
-          fill_in :email
-        end
-
-        describe 'user is authenticated successfully' do
-
-          it 'should redirect to that user page' do
-            expect(page).to have_title
-          end
-
-
-        end
-
-      end
-
     end
 
   end
+
 end
