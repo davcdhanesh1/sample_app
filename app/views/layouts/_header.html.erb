@@ -2,12 +2,19 @@
   <div class="navbar-inner">
     <div class="container">
       <%= link_to "Sample App", root_url, id: "logo" %>
+
       <nav>
         <ul class="nav pull-right">
           <li><%= link_to "Home", home_path %></li>
-          <li><%= link_to "Help", help_path%></li>
+          <li><%= link_to "Help", help_path %></li>
           <li><%= link_to "About", about_path %></li>
           <li><%= link_to "Contact", contact_path %></li>
+
+          <% if signed_in? %>
+              <li><%= link_to "Sign out", signout_path, method: "delete" %></li>
+          <% else %>
+              <li><%= link_to "Sign in", signin_path %></li>
+          <% end %>
         </ul>
       </nav>
     </div>

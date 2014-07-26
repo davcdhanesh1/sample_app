@@ -4,7 +4,7 @@ RSpec.describe 'StaticPages', :type => :feature do
   describe 'GET /static_pages' do
 
     let(:base_title) { 'sample app |' }
-    let(:header) {'Sample App Home Help About Contact'}
+    let(:header) {'Sample App Home Help About Contact Sign in'}
     let(:footer) {'This site is maintained by Tripartite Inc. @copyright 2016'}
 
     subject { page }
@@ -19,7 +19,8 @@ RSpec.describe 'StaticPages', :type => :feature do
         should have_title(expected_title)
       end
       it 'should load the index page and display sign up page link' do
-        body = 'Welcome to Sample App This app is just to demonstrate how to develop using Ruby on Rails Sign up now!'
+        body = 'Welcome to Sample App This app is just to demonstrate how to develop using Ruby on Rails
+                For new registration, Sign up now! Existing user ? Sign in here'
         expected_msg = "#{header} #{body} #{footer}"
         should have_content(expected_msg)
 
