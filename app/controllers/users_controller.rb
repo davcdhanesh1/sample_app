@@ -2,6 +2,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    flash[:notice] = "This is just a sample app; Don't take it too seriously"
   end
 
   def new

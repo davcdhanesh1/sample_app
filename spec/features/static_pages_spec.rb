@@ -4,18 +4,35 @@ RSpec.describe 'StaticPages', :type => :feature do
   describe 'GET /static_pages' do
 
     let(:base_title) { 'sample app |' }
+    let(:header) {'Sample App Home Help About Contact'}
+    let(:footer) {'This site is maintained by Tripartite Inc. @copyright 2016'}
 
     subject { page }
+
+    describe 'GET /index page'do
+      before(:each) do
+        visit root_path
+      end
+
+      it 'should have the title as sample app |' do
+        expected_title = 'sample app |'
+        should have_title(expected_title)
+      end
+      it 'should load the index page and display sign up page link' do
+        body = 'Welcome to Sample App This app is just to demonstrate how to develop using Ruby on Rails Sign up now!'
+        expected_msg = "#{header} #{body} #{footer}"
+        should have_content(expected_msg)
+
+      end
+
+    end
 
     describe 'GET /home page' do
       before(:each) do
         visit home_path
       end
       it 'should load home page and display welcome message' do
-        expected_msg = 'Sample App Home Help About Contact Welcome to Sample App
-                        This app is just to demonstrate how to develop using Ruby on Rails
-                        Sign up now!
-                        This site is maintained by Tripartite Inc. @copyright 2016'
+        expected_msg = "#{header} This is home page for Sample App #{footer}"
         should have_content(expected_msg)
       end
 
@@ -31,7 +48,7 @@ RSpec.describe 'StaticPages', :type => :feature do
         visit help_path
       end
       it 'should load help page and display help center no' do
-        expected_msg = 'This is help page for this Sample App'
+        expected_msg = "#{header} This is help page for this Sample App #{footer}"
         should have_content(expected_msg)
       end
 
@@ -46,7 +63,7 @@ RSpec.describe 'StaticPages', :type => :feature do
         visit about_path
       end
       it 'should load about page and display my profile' do
-        expected_msg = 'This is about page'
+        expected_msg = "#{header} This is about page #{footer}"
         should have_content(expected_msg)
       end
 
@@ -61,7 +78,7 @@ RSpec.describe 'StaticPages', :type => :feature do
         visit contact_path
       end
       it 'should load contact page and display contact info' do
-        expected_msg = 'This is contact page'
+        expected_msg = "#{header} This is contact page #{footer}"
         should have_content(expected_msg)
       end
       it 'should have title as sample app | Contact' do
