@@ -5,6 +5,7 @@
     <div class="span6">
 
       <h1>Welcome to Sample App</h1>
+
       <p>This app is just to demonstrate how to develop using Ruby on Rails</p>
 
     </div>
@@ -15,8 +16,11 @@
       <p>For new registration,</p>
       <%= link_to 'Sign up now!', new_user_path, class: 'btn btn-large btn-primary btn-block' %>
       <br>
-      <p>Existing user ?</p>
-      <%= link_to 'Sign in here', signin_path, class: 'btn btn-large btn-primary btn-block' %>
+
+      <% if !signed_in? %>
+          <p>Existing user ?</p>
+          <%= link_to 'Sign in here', signin_path, class: 'btn btn-large btn-primary btn-block' %>
+      <% end %>
 
     </div>
 
