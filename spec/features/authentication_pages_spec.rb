@@ -59,6 +59,33 @@ RSpec.describe "AuthenticationPages", :type => :feature do
 
         end
 
+
+      end
+
+
+      context 'valid information form submission' do
+
+        let(:user) { FactoryGirl.create(:user) }
+
+        before(:each) do
+          fill_in 'Email', with: user.email
+          fill_in 'Password', with: user.password
+          click_button 'Sign In'
+        end
+
+        describe 'after submitting valid information' do
+
+          it 'should redirect the user to profile page' do
+            expected_title = "#{base_title} #{user.name}"
+            expect(page).to have_title(expected_title)
+          end
+
+          it 'should not have any error messages' do
+            expect(page).not_to have_selector('div.alert.alert-error')
+          end
+
+        end
+
       end
 
     end
