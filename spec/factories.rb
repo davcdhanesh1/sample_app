@@ -6,4 +6,5 @@ FactoryGirl.define do
     password '1234xxxx'
     password_confirmation '1234xxxx'
   end
+
 end

@@ -1,11 +1,12 @@
 require 'rails_helper'
+require_relative '../support/utilities'
 
 
 RSpec.describe 'UserPages', :type => :feature do
 
   describe 'users controller spec' do
 
-    let(:header) { 'Sample App Home Help About Contact Sign in' }
+    let(:header) { 'Sample App Home Help About Contact Users Account Profile Settings Sign out' }
     let(:footer) { 'This site is maintained by Tripartite Inc. @copyright 2016' }
     let(:base_title) { 'sample app |' }
     subject { page }
@@ -21,6 +22,7 @@ RSpec.describe 'UserPages', :type => :feature do
         expected_title = "#{base_title} Sign up"
         should have_title(expected_title)
       end
+
     end
 
     describe '#create' do
@@ -73,27 +75,74 @@ RSpec.describe 'UserPages', :type => :feature do
     describe '#edit' do
 
       let(:user) { FactoryGirl.create(:user) }
+      let(:newpassword) {'new password'}
+      let(:newname) {'my new name'}
 
       before(:each) do
-        visit edit_user_path(user)
+        sign_in user
+        visit edit_user_path(user.id)
       end
 
-      describe 'edit_page' do
+      describe 'edit_page_layout' do
 
-        it 'should have title as update your profile' do
-          expected_title = 'update your profile'
+        it 'should have title as edit' do
+          expected_title = "#{base_title} edit"
           expect(page).to have_title(expected_title)
         end
 
         it 'should have content as edit your profile here' do
-          main_content = 'edit your profile here'
+          main_content = 'edit your profile here New name New password New password confirmation'
           expected_body = "#{header} #{main_content} #{footer}"
           expect(page).to have_content(expected_body)
         end
 
-
+        it { should have_link('Profile',     href: user_path(user)) }
+        it { should have_link('Settings',    href: edit_user_path(user)) }
+        it { should have_link('Sign out',    href: signout_path) }
+        it { should_not have_link('Sign in', href: signin_path) }
 
       end
+
+      describe 'editing user profile' do
+
+        context 'after successful profile editing' do
+
+          before(:each) do
+            fill_in 'user[name]', with: newname
+            fill_in 'user[password]', with: newpassword
+            fill_in 'user[password_confirmation]', with: newpassword
+            click_button 'Save changes'
+          end
+
+          it 'should not have any errors' do
+            expect(page).to have_selector('div.alert.alert-success')
+          end
+
+          it 'should reload user profile page with new changes' do
+            expected_title = "#{base_title} #{newname}"
+            expect(page).to have_title(expected_title)
+          end
+
+          it 'should update user name' do
+            expect(user.reload.name).to eq newname
+          end
+
+        end
+
+        context 'after unsuccessful profile edit' do
+
+          before(:each) do
+            click_button 'Save changes'
+          end
+
+          it 'should have error message' do
+            expect(page).to have_selector('div.alert.alert-error')
+          end
+
+        end
+
+      end
+
     end
 
   end

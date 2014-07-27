@@ -10,14 +10,13 @@ class SessionsController < ApplicationController
 
     if user && user.authenticate(params[:session][:password])
       sign_in user
-      redirect_to user_path(user.id)
+      redirect_back_or user
     else
       flash.now[:error] = 'Invalid Username/Password'
       render 'sessions/new'
     end
 
   end
-
 
   def destroy
     sign_out current_user

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "AuthenticationPages", :type => :feature do
+RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
 
   describe 'GET /authentication_pages' do
 
@@ -82,6 +82,78 @@ RSpec.describe "AuthenticationPages", :type => :feature do
 
           it 'should not have any error messages' do
             expect(page).not_to have_selector('div.alert.alert-error')
+          end
+
+        end
+
+      end
+
+    end
+
+    describe 'authorization' do
+
+      let(:user) { FactoryGirl.create(:user) }
+      let(:wrong_user) { FactoryGirl.create(:user, id: '2', email: 'wrong@gmail.com',
+                                            password: 'wrongpassword',
+                                            password_confirmation: 'wrongpassword'
+      ) }
+
+      before(:each) do
+        visit edit_user_path(user)
+      end
+
+      it 'should not have sign out link' do
+        expect(page).not_to have_link('Sign out', href: signout_path)
+      end
+
+      context 'user is not logged in but tries to access edit page' do
+
+        describe 'submitting to the update action' do
+
+          it 'should redirect user to the signin page' do
+            patch user_path(user)
+            expect(response).to redirect_to(signin_path)
+          end
+
+        end
+
+        describe 'after successfully sign in it should redirect user to the page he wanted to access' do
+
+          before(:each) do
+            fill_in 'session[email]', with: user.email
+            fill_in 'session[password]', with: user.password
+            click_button 'Sign In'
+          end
+
+          it 'should redirect the user to edit page after successfull sign in' do
+            expected_title = 'sample app | edit'
+            expect(page).to have_title(expected_title)
+          end
+
+        end
+
+      end
+
+      context 'incorrect logged in user tries to access edit page of another user' do
+
+        before(:each) do
+          sign_in user, no_capybara: true
+        end
+
+        describe 'submitting a GET request while logged in as some other user' do
+
+          it 'should redirect such users to root path ' do
+            get edit_user_path(wrong_user)
+            expect(response).to redirect_to(root_path)
+          end
+
+        end
+
+        describe 'submitting the update or edit action while logged in as some other user' do
+
+          it 'should redirect such users to root path' do
+            patch user_path(wrong_user)
+            expect(response).to redirect_to(root_path)
           end
 
         end

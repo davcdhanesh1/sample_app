@@ -1,2 +1,25 @@
-<%= provide(:title,'update your profile') %>
-edit your profile here
+<%= provide(:title, 'edit') %>
+<h2>edit your profile here</h2>
+
+<div class="row">
+  <div class="span6 offset3">
+
+    <%= form_for(@user) do |f| %>
+
+        <%= render 'shared/errors' %>
+
+        <%= f.label :new_name %>
+        <%= f.text_field :name %>
+
+        <%= f.label :new_password %>
+        <%= f.password_field :password %>
+
+        <%= f.label :new_password_confirmation %>
+        <%= f.password_field :password_confirmation %>
+
+        <%= f.submit 'Save changes', class: 'btn btn-large btn-primary' %>
+
+    <% end %>
+
+  </div>
+</div>
