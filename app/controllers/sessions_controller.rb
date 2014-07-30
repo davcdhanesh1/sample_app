@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
 
+  before_action :redirect_signed_in_user, only:[:new,:create]
+
   def new
     @user = User.new
   end
@@ -22,6 +24,7 @@ class SessionsController < ApplicationController
     sign_out current_user
     redirect_to root_path
   end
+
 
 
 end

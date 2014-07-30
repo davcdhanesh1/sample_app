@@ -160,6 +160,20 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
 
       end
 
+      describe 'signed_in user tries to access /signin' do
+
+        before(:each) do
+          sign_in user, no_capybara: true
+        end
+
+        it 'should redirect such users to their profile page' do
+          get new_session_path
+          expect(response).to redirect_to(user_path(user))
+
+        end
+
+      end
+
     end
 
   end

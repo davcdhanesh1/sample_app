@@ -35,4 +35,9 @@ module SessionsHelper
     session[:return_to] = request.url if request.get?
   end
 
+  def redirect_signed_in_user
+    redirect_back_or current_user if signed_in?
+  end
+
+
 end
