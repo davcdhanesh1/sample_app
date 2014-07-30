@@ -37,6 +37,8 @@ gem 'jbuilder', '~> 2.0'
 group :doc do
 	gem 'sdoc', '~> 0.4.0', require:false
 end
+# Faker ruby gem
+gem 'faker', '1.1.2'
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
@@ -56,6 +58,9 @@ group :production do
 	gem 'pg','0.15.1'
 	gem 'rails_12factor','0.0.2'
 end
+
+# to paginate users
+gem 'will_paginate', '~> 3.0.7'
 
 # Encryption Gem
 

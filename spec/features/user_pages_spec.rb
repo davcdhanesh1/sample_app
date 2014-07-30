@@ -64,6 +64,7 @@ RSpec.describe 'UserPages', :type => :feature do
       let(:user) { FactoryGirl.create(:user) }
 
       before(:each) do
+        sign_in user
         visit user_path(user.id)
       end
 
@@ -75,8 +76,8 @@ RSpec.describe 'UserPages', :type => :feature do
     describe '#edit' do
 
       let(:user) { FactoryGirl.create(:user) }
-      let(:newpassword) {'new password'}
-      let(:newname) {'my new name'}
+      let(:newpassword) { 'new password' }
+      let(:newname) { 'my new name' }
 
       before(:each) do
         sign_in user
@@ -96,9 +97,9 @@ RSpec.describe 'UserPages', :type => :feature do
           expect(page).to have_content(expected_body)
         end
 
-        it { should have_link('Profile',     href: user_path(user)) }
-        it { should have_link('Settings',    href: edit_user_path(user)) }
-        it { should have_link('Sign out',    href: signout_path) }
+        it { should have_link('Profile', href: user_path(user)) }
+        it { should have_link('Settings', href: edit_user_path(user)) }
+        it { should have_link('Sign out', href: signout_path) }
         it { should_not have_link('Sign in', href: signin_path) }
 
       end
@@ -145,5 +146,43 @@ RSpec.describe 'UserPages', :type => :feature do
 
     end
 
+    describe '#index' do
+
+      before(:each) do
+        sign_in FactoryGirl.create(:user)
+        visit users_path
+      end
+
+      before(:all) do
+        30.times { FactoryGirl.create(:user) }
+      end
+
+      after(:all) do
+        User.destroy_all
+      end
+
+      it 'should have title as all users' do
+        expected_title = base_title + ' all users'
+        expect(page).to have_title(expected_title)
+      end
+
+      it 'should have heading as looking for someone' do
+        expect(page).to have_content('looking for someone...')
+      end
+
+      it 'should have pagination' do
+        expect(page).to have_selector('div.pagination')
+      end
+
+      it 'should list each user' do
+        all_users_from_page_1  = User.paginate(page: 1)
+        all_users_from_page_1.each do |user|
+          expect(page).to have_selector('li', text: user.name)
+        end
+      end
+
+    end
+
   end
+
 end
