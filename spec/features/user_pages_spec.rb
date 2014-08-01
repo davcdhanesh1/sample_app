@@ -7,9 +7,6 @@ RSpec.describe 'UserPages', :type => :feature do
 
   describe 'users controller spec' do
 
-    let(:header) { 'Sample App Home Help About Contact Users Account Profile Settings Sign out' }
-    let(:footer) { 'This site is maintained by Tripartite Inc. @copyright 2016' }
-    let(:base_title) { 'sample app |' }
     subject { page }
 
     describe '#new' do
@@ -111,7 +108,7 @@ RSpec.describe 'UserPages', :type => :feature do
 
         it 'should have content as edit your profile here' do
           main_content = 'edit your profile here New name New password New password confirmation'
-          expected_body = "#{header} #{main_content} #{footer}"
+          expected_body = "#{main_content}"
           expect(page).to have_content(expected_body)
         end
 

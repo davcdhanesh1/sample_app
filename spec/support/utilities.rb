@@ -1,3 +1,4 @@
+
 def sign_in(user, options={})
   if options[:no_capybara]
     # Sign in when not using Capybara.
@@ -6,12 +7,24 @@ def sign_in(user, options={})
     user.update_attribute(:remember_token, User.digest(remember_token))
   else
     visit signin_path
-    fill_in "Email",    with: user.email
-    fill_in "Password", with: user.password
-    click_button "Sign In"
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
+    click_button 'Sign In'
   end
 end
 
 def base_title
   'sample app |'
+end
+
+def header
+    'Sample App Home Help About Contact Sign in'
+end
+
+def footer
+  'This site is maintained by Tripartite Inc. @copyright 2016'
+end
+
+def error_selector
+  'div.alert.alert-error'
 end

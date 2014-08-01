@@ -6,8 +6,11 @@ describe 'User behaviour' do
     @testuser = FactoryGirl.create(:user)
   end
 
-  describe 'respond to different methods' do
+  after(:each) do
+    @testuser.destroy
+  end
 
+  describe 'respond to different methods' do
 
     it 'should respond to authenticate ' do
       expect(@testuser).to respond_to(:authenticate)
@@ -16,7 +19,6 @@ describe 'User behaviour' do
     it 'should respond to remember token' do
       expect(@testuser).to respond_to(:remember_token)
     end
-
 
   end
 
@@ -33,14 +35,6 @@ describe 'User behaviour' do
   end
 
   describe 'microposts' do
-
-    before do
-      @testuser.save
-    end
-
-    after do
-      @testuser.destroy
-    end
 
     let!(:older_micropost) {FactoryGirl.create(:micropost, user: @testuser, created_at: 1.day.ago)}
     let!(:newer_micropost)  {FactoryGirl.create(:micropost, user: @testuser, created_at: 1.hour.ago)}

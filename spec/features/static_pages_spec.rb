@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe 'StaticPages', :type => :feature do
   describe 'GET /static_pages' do
 
-    let(:base_title) { 'sample app |' }
-    let(:header) { 'Sample App Home Help About Contact Sign in' }
-    let(:footer) { 'This site is maintained by Tripartite Inc. @copyright 2016' }
-
     subject { page }
 
     describe 'GET /index page' do

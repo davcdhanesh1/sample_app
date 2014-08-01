@@ -4,10 +4,6 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
 
   describe 'GET /authentication_pages' do
 
-    let(:base_title) { 'sample app |' }
-    let(:header) { 'Sample App Home Help About Contact Sign in' }
-    let(:footer) { 'This site is maintained by Tripartite Inc. @copyright 2016' }
-
     describe 'signin page layout' do
 
       before(:each) do
@@ -15,18 +11,14 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
       end
 
       it 'should have title as sample app | sign in ' do
-
         expected_title = "#{base_title} Sign In"
         expect(page).to have_title(expected_title)
-
       end
 
       it 'should have content' do
-
         body = 'Sign In Email Password New user? Sign up now!'
         expected_body = "#{header} #{body} #{footer}"
         expect(page).to have_content(expected_body)
-
       end
 
     end
@@ -44,7 +36,7 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
           before { click_button 'Sign In' }
 
           it 'should have error message' do
-            expect(page).to have_selector('div.alert.alert-error')
+            expect(page).to have_selector(error_selector)
           end
 
         end
@@ -54,14 +46,12 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
           before { visit home_path }
 
           it 'should not have error message' do
-            expect(page).not_to have_selector('div.alert.alert-error')
+            expect(page).not_to have_selector(error_selector)
           end
 
         end
 
-
       end
-
 
       context 'valid information form submission' do
 
@@ -81,7 +71,11 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
           end
 
           it 'should not have any error messages' do
-            expect(page).not_to have_selector('div.alert.alert-error')
+            expect(page).not_to have_selector(error_selector)
+          end
+
+          it 'should not have link for sign in' do
+            expect(page).not_to have_content('Sign in')
           end
 
         end

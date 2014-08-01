@@ -17,7 +17,7 @@ RSpec.describe 'MicropostPages', :type => :feature do
 
     it 'should should not have errors' do
       click_button 'Post'
-      expect(page).not_to have_selector('div.alert.alert-error')
+      expect(page).not_to have_selector(error_selector)
     end
 
     it 'should not increase the count of Microposts' do
@@ -44,7 +44,7 @@ RSpec.describe 'MicropostPages', :type => :feature do
 
     it 'should should have errors' do
       click_button 'Post'
-      expect(page).to have_selector('div.alert.alert-error')
+      expect(page).to have_selector(error_selector)
     end
 
     it 'should not increase the count of Microposts' do
