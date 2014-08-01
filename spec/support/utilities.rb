@@ -18,7 +18,7 @@ def base_title
 end
 
 def header
-    'Sample App Home Help About Contact Sign in'
+    'Sample App Post New Idea Help About Contact Sign in'
 end
 
 def footer

@@ -6,7 +6,6 @@ class MicropostsController < ApplicationController
     head :ok
   end
 
-
   def create
 
     @post_content = params[:post_content]
@@ -15,7 +14,7 @@ class MicropostsController < ApplicationController
       flash[:success] = 'Your new idea is now live to world...'
       redirect_to current_user
     else
-      render 'static_pages/home'
+      render 'static_pages/post_new_idea'
     end
   end
 

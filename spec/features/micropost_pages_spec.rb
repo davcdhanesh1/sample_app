@@ -11,7 +11,7 @@ RSpec.describe 'MicropostPages', :type => :feature do
 
     before { sign_in user }
     before(:each) do
-      visit home_path
+      visit post_new_idea_path
       fill_in 'micropost_content', with: valid_micropost_content
     end
 
@@ -38,7 +38,7 @@ RSpec.describe 'MicropostPages', :type => :feature do
 
     before { sign_in user }
     before(:each) do
-      visit home_path
+      visit post_new_idea_path
       fill_in 'micropost_content', with: invalid_micropost_content
     end
 

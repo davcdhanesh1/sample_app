@@ -27,7 +27,7 @@ RSpec.describe 'StaticPages', :type => :feature do
     describe 'GET /home page' do
       let!(:user) { FactoryGirl.create(:user) }
       before(:each) do
-        visit home_path
+        visit post_new_idea_path
       end
       it 'should load home page and display welcome message' do
         sign_in user

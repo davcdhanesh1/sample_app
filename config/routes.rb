@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new,:create,:destroy]
   resources :microposts, only: [:destroy,:create]
 
-  match '/home', to: 'static_pages#home', via: 'get'
+  match '/post_new_idea', to: 'static_pages#post_new_idea', via: 'get'
   match '/help', to: 'static_pages#help', via: 'get'
   match '/about', to: 'static_pages#about', via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'

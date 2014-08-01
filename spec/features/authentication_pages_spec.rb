@@ -43,7 +43,7 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
 
         describe 'after visiting another page' do
 
-          before { visit home_path }
+          before { visit post_new_idea_path }
 
           it 'should not have error message' do
             expect(page).not_to have_selector(error_selector)
