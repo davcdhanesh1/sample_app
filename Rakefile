@@ -7,19 +7,33 @@ Rails.application.load_tasks
 
 namespace :db do
   desc "Fill database with sample data"
-  task populate: :environment do
-    User.create!(name: 'Example User',
-                 email: 'example@railstutorial.org',
-                 password: '1234foobar',
-                 password_confirmation: '1234foobar')
+
+  task populate_user: :environment do
+    User.create!(name: 'davcdhanesh1',
+                 email: 'davcdhanesh1@gmail.com',
+                 password: 'iamdhanesh1',
+                 password_confirmation: 'iamdhanesh1')
     99.times do |n|
-      name  = Faker::Name.name
-      email = "example-#{n+1}@railstutorial.org"
-      password  = "password"
+      name = Faker::Name.name
+      email = "example-#{n+1}@test.com"
+      password = "password"
       User.create!(name: name,
                    email: email,
                    password: password,
                    password_confirmation: password)
+    end
+  end
+end
+
+namespace :db do
+  desc 'Fill database with sample posts'
+  task populate_microposts: :environment do
+    users = User.limit(6)
+    users.each do |user|
+      50.times do
+        content = Faker::Lorem.sentence(5)
+        Micropost.create!(content:content,user:user)
+      end
     end
   end
 end

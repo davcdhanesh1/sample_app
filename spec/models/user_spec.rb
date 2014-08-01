@@ -38,6 +38,10 @@ describe 'User behaviour' do
       @testuser.save
     end
 
+    after do
+      @testuser.destroy
+    end
+
     let!(:older_micropost) {FactoryGirl.create(:micropost, user: @testuser, created_at: 1.day.ago)}
     let!(:newer_micropost)  {FactoryGirl.create(:micropost, user: @testuser, created_at: 1.hour.ago)}
 

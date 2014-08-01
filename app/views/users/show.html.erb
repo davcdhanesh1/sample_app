@@ -1,4 +1,4 @@
-<%= provide(:title,@user.name) %>
+<%= provide(:title, @user.name) %>
 <div class="row">
   <aside class="span4">
     <section>
@@ -8,4 +8,16 @@
       </h1>
     </section>
   </aside>
+
+  <aside class="span8">
+    <h2><%= no_of_microposts @user %></h2>
+    <% if @microposts.any? %>
+        <%= will_paginate @microposts %>
+        <ol class="microposts">
+          <%= render @microposts %>
+        </ol>
+        <%= will_paginate @microposts %>
+    <% end %>
+  </aside>
+
 </div>
