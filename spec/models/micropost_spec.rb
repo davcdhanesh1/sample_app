@@ -44,4 +44,5 @@ RSpec.describe Micropost, :type => :model do
     end
 
   end
+
 end

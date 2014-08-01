@@ -1,0 +1,9 @@
+<%= form_for(@new_micropost) do |f| %>
+    <%= render 'shared/errors', object: f.object %>
+    <div class="field">
+      <%= f.label :content, 'scratch down your new idea here...' %>
+      <%= f.text_area :content, placeholder: 'write your idea in less than 100 characters' %>
+    </div>
+    <br>
+    <%= f.submit "Post", class: 'btn btn-large btn-primary center' %>
+<% end %>

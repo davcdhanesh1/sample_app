@@ -35,4 +35,22 @@ module SessionsHelper
     session[:return_to] = request.url if request.get?
   end
 
+  def correct_user
+    @user = User.find(params[:id])
+    if @user.id != current_user.id
+      redirect_to root_path
+    end
+  end
+
+  def signed_in_user
+
+    if !signed_in?
+      flash[:notice] = 'Please Sign in to complete this action'
+      store_location
+      redirect_to signin_path
+    end
+
+  end
+
+
 end

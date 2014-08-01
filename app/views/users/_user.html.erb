@@ -1,4 +1,7 @@
 <li>
 <%= gravatar_for user%>
 <%= link_to user.name, user %>
+<div>
+  <%= pluralize(user.microposts.count,'Micropost') %>
+</div>
 </li>

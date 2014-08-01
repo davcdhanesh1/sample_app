@@ -69,11 +69,12 @@ RSpec.describe 'UserPages', :type => :feature do
 
       before(:all) do
         @user = FactoryGirl.create(:user)
-        50.times { FactoryGirl.create(:micropost,user: @user) }
+        50.times { FactoryGirl.create(:micropost, user: @user) }
       end
 
       after(:all) do
         User.destroy_all
+
       end
 
       it { should have_content(@user.name) }

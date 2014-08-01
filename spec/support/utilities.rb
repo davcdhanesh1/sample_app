@@ -11,3 +11,7 @@ def sign_in(user, options={})
     click_button "Sign In"
   end
 end
+
+def base_title
+  'sample app |'
+end

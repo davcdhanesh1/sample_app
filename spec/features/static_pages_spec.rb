@@ -4,12 +4,12 @@ RSpec.describe 'StaticPages', :type => :feature do
   describe 'GET /static_pages' do
 
     let(:base_title) { 'sample app |' }
-    let(:header) {'Sample App Home Help About Contact Sign in'}
-    let(:footer) {'This site is maintained by Tripartite Inc. @copyright 2016'}
+    let(:header) { 'Sample App Home Help About Contact Sign in' }
+    let(:footer) { 'This site is maintained by Tripartite Inc. @copyright 2016' }
 
     subject { page }
 
-    describe 'GET /index page'do
+    describe 'GET /index page' do
       before(:each) do
         visit root_path
       end
@@ -29,11 +29,13 @@ RSpec.describe 'StaticPages', :type => :feature do
     end
 
     describe 'GET /home page' do
+      let!(:user) { FactoryGirl.create(:user) }
       before(:each) do
         visit home_path
       end
       it 'should load home page and display welcome message' do
-        expected_msg = "#{header} This is home page for Sample App #{footer}"
+        sign_in user
+        expected_msg = 'scratch down your new idea here...'
         should have_content(expected_msg)
       end
 

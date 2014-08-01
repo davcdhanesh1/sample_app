@@ -90,7 +90,7 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
 
     end
 
-    describe 'authorization' do
+    describe 'authorization for user' do
 
       let(:user) { FactoryGirl.create(:user) }
       let(:wrong_user) { FactoryGirl.create(:user, id: '2', email: 'wrong@gmail.com',
@@ -158,6 +158,31 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
 
         end
 
+      end
+
+    end
+
+    describe 'authorization for micropost' do
+
+      let(:user) { FactoryGirl.create(:user) }
+      let(:micropost) { FactoryGirl.create(:micropost)}
+
+      before(:each) do
+        visit user_path(user)
+      end
+
+      describe 'user is not logged in but tries to access the micropost create' do
+        it 'should redirect user to the signin page' do
+          post microposts_path
+          expect(response).to redirect_to(signin_path)
+        end
+      end
+
+      describe 'user is not logged in but tries to access the micropost destroy action' do
+        it 'should redirect user to the signin page' do
+          delete micropost_path(micropost)
+          expect(response).to redirect_to(signin_path)
+        end
       end
 
     end
