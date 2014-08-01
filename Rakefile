@@ -13,7 +13,7 @@ namespace :db do
                  email: 'davcdhanesh1@gmail.com',
                  password: 'iamdhanesh1',
                  password_confirmation: 'iamdhanesh1')
-    99.times do |n|
+    49.times do |n|
       name = Faker::Name.name
       email = "example-#{n+1}@test.com"
       password = "password"
@@ -30,7 +30,7 @@ namespace :db do
   task populate_microposts: :environment do
     users = User.limit(6)
     users.each do |user|
-      50.times do
+      32.times do
         content = Faker::Lorem.sentence(5)
         Micropost.create!(content:content,user:user)
       end
