@@ -17,7 +17,7 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
 
       it 'should have content' do
         body = 'Sign In Email Password New user? Sign up now!'
-        expected_body = "#{header} #{body} #{footer}"
+        expected_body = "#{body}"
         expect(page).to have_content(expected_body)
       end
 

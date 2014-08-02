@@ -9,13 +9,12 @@
       <nav>
 
         <ul class="nav pull-right">
-          <li><%= link_to "Post New Idea", post_new_idea_path , class: 'highlight' %></li>
+          <li><%= link_to "Post New Idea", post_new_idea_path, class: 'highlight' %></li>
           <li><%= link_to "Help", help_path %></li>
           <li><%= link_to "About", about_path %></li>
           <li><%= link_to "Contact", contact_path %></li>
-
           <% if signed_in? %>
-              <%=render  'layouts/add_profile_settings_to_header_with_sign_out_link' %>
+              <%= render 'layouts/add_profile_settings_to_header_with_sign_out_link' %>
           <% end %>
 
         </ul>
