@@ -20,6 +20,10 @@ describe 'User behaviour' do
       expect(@testuser).to respond_to(:remember_token)
     end
 
+    it 'should respond to feeds' do
+      expect(@testuser).to respond_to(:feeds)
+    end
+
   end
 
   describe 'blank remember token' do
@@ -36,8 +40,8 @@ describe 'User behaviour' do
 
   describe 'microposts' do
 
-    let!(:older_micropost) {FactoryGirl.create(:micropost, user: @testuser, created_at: 1.day.ago)}
-    let!(:newer_micropost)  {FactoryGirl.create(:micropost, user: @testuser, created_at: 1.hour.ago)}
+    let!(:older_micropost) { FactoryGirl.create(:micropost, user: @testuser, created_at: 1.day.ago) }
+    let!(:newer_micropost) { FactoryGirl.create(:micropost, user: @testuser, created_at: 1.hour.ago) }
 
     it 'should respond to micropost associated with it' do
       expect(@testuser).to respond_to(:microposts)
@@ -49,12 +53,27 @@ describe 'User behaviour' do
       @testuser.destroy
       expect(all_microposts).not_to be_empty
 
-      all_microposts.each do|micropost|
-        expect(Micropost.where(id:micropost.id)).to be_empty
+      all_microposts.each do |micropost|
+        expect(Micropost.where(id: micropost.id)).to be_empty
       end
 
     end
 
   end
+
+  describe 'feeds' do
+    let!(:older_micropost) { FactoryGirl.create(:micropost, user: @testuser, created_at: 1.day.ago) }
+    let!(:newer_micropost) { FactoryGirl.create(:micropost, user: @testuser, created_at: 1.hour.ago) }
+    let(:other_micropost) { FactoryGirl.create(:micropost, user: FactoryGirl.create(:user)) }
+
+
+    it "should include it's one's own microposts in one's feeds" do
+      expect(@testuser.feeds).to include(older_micropost)
+      expect(@testuser.feeds).to include(newer_micropost)
+      expect(@testuser.feeds).not_to include(other_micropost)
+    end
+
+  end
+
 
 end

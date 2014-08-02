@@ -9,16 +9,7 @@
   </aside>
 
   <aside class="span8">
-    <h2><%= no_of_microposts @user %></h2>
-      <% if @microposts.any? %>
-
-          <%= will_paginate @microposts, class: 'center' %>
-          <ol class="microposts">
-            <%= render @microposts %>
-          </ol>
-          <%= will_paginate @microposts, class: 'center' %>
-
-      <% end %>
+    <%= render 'users/feeds' %>
   </aside>
 
 </div>

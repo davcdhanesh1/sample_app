@@ -1,5 +1,5 @@
 module MicropostsHelper
-  def no_of_microposts(user)
-    pluralize(user.microposts.count,'micropost')
+  def no_of_feeds(user)
+    pluralize(user.feeds.count,'feed')
   end
 end
