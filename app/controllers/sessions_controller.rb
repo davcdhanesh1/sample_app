@@ -3,7 +3,11 @@ class SessionsController < ApplicationController
   before_action :redirect_signed_in_user, only:[:new,:create]
 
   def new
-    @user = User.new
+    if signed_in?
+      redirect_to user_path(current_user)
+    else
+      @user = User.new
+    end
   end
 
   def create

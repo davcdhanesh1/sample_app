@@ -4,10 +4,6 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
 
   describe 'GET /authentication_pages' do
 
-    let(:base_title) { 'sample app |' }
-    let(:header) { 'Sample App Home Help About Contact Sign in' }
-    let(:footer) { 'This site is maintained by Tripartite Inc. @copyright 2016' }
-
     describe 'signin page layout' do
 
       before(:each) do
@@ -15,18 +11,14 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
       end
 
       it 'should have title as sample app | sign in ' do
-
         expected_title = "#{base_title} Sign In"
         expect(page).to have_title(expected_title)
-
       end
 
       it 'should have content' do
-
         body = 'Sign In Email Password New user? Sign up now!'
-        expected_body = "#{header} #{body} #{footer}"
+        expected_body = "#{body}"
         expect(page).to have_content(expected_body)
-
       end
 
     end
@@ -44,24 +36,22 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
           before { click_button 'Sign In' }
 
           it 'should have error message' do
-            expect(page).to have_selector('div.alert.alert-error')
+            expect(page).to have_selector(error_selector)
           end
 
         end
 
         describe 'after visiting another page' do
 
-          before { visit home_path }
+          before { visit post_new_idea_path }
 
           it 'should not have error message' do
-            expect(page).not_to have_selector('div.alert.alert-error')
+            expect(page).not_to have_selector(error_selector)
           end
 
         end
 
-
       end
-
 
       context 'valid information form submission' do
 
@@ -81,7 +71,11 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
           end
 
           it 'should not have any error messages' do
-            expect(page).not_to have_selector('div.alert.alert-error')
+            expect(page).not_to have_selector(error_selector)
+          end
+
+          it 'should not have link for sign in' do
+            expect(page).not_to have_content('Sign in')
           end
 
         end
@@ -90,7 +84,7 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
 
     end
 
-    describe 'authorization' do
+    describe 'authorization for user' do
 
       let(:user) { FactoryGirl.create(:user) }
       let(:wrong_user) { FactoryGirl.create(:user, id: '2', email: 'wrong@gmail.com',
@@ -172,6 +166,31 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
 
         end
 
+      end
+
+    end
+
+    describe 'authorization for micropost' do
+
+      let(:user) { FactoryGirl.create(:user) }
+      let(:micropost) { FactoryGirl.create(:micropost)}
+
+      before(:each) do
+        visit user_path(user)
+      end
+
+      describe 'user is not logged in but tries to access the micropost create' do
+        it 'should redirect user to the signin page' do
+          post microposts_path
+          expect(response).to redirect_to(signin_path)
+        end
+      end
+
+      describe 'user is not logged in but tries to access the micropost destroy action' do
+        it 'should redirect user to the signin page' do
+          delete micropost_path(micropost)
+          expect(response).to redirect_to(signin_path)
+        end
       end
 
     end

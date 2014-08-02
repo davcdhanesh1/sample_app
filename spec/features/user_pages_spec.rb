@@ -1,14 +1,12 @@
 require 'rails_helper'
 require_relative '../support/utilities'
+require_relative '../../app/helpers/users_helper'
 
 
 RSpec.describe 'UserPages', :type => :feature do
 
   describe 'users controller spec' do
 
-    let(:header) { 'Sample App Home Help About Contact Users Account Profile Settings Sign out' }
-    let(:footer) { 'This site is maintained by Tripartite Inc. @copyright 2016' }
-    let(:base_title) { 'sample app |' }
     subject { page }
 
     describe '#new' do
@@ -61,15 +59,32 @@ RSpec.describe 'UserPages', :type => :feature do
 
     describe '#show' do
 
-      let(:user) { FactoryGirl.create(:user) }
-
       before(:each) do
-        sign_in user
-        visit user_path(user.id)
+        sign_in @user
+        visit user_path(@user.id)
       end
 
-      it { should have_content(user.name) }
-      it { should have_title(user.name) }
+      before(:all) do
+        @user = FactoryGirl.create(:user)
+        50.times { FactoryGirl.create(:micropost, user: @user) }
+      end
+
+      after(:all) do
+        User.destroy_all
+
+      end
+
+      it { should have_content(@user.name) }
+      it { should have_title(@user.name) }
+      it 'should have microposts count' do
+        expect(page).to have_content("50 microposts")
+      end
+      it 'should have micropost pagination link' do
+        all_microposts_from_page_1 = Micropost.paginate(page: 1)
+        all_microposts_from_page_1.each do |micropost|
+          expect(page).to have_content(micropost.content)
+        end
+      end
 
     end
 
@@ -93,7 +108,7 @@ RSpec.describe 'UserPages', :type => :feature do
 
         it 'should have content as edit your profile here' do
           main_content = 'edit your profile here New name New password New password confirmation'
-          expected_body = "#{header} #{main_content} #{footer}"
+          expected_body = "#{main_content}"
           expect(page).to have_content(expected_body)
         end
 
@@ -175,7 +190,7 @@ RSpec.describe 'UserPages', :type => :feature do
       end
 
       it 'should list each user' do
-        all_users_from_page_1  = User.paginate(page: 1)
+        all_users_from_page_1 = User.paginate(page: 1)
         all_users_from_page_1.each do |user|
           expect(page).to have_selector('li', text: user.name)
         end
