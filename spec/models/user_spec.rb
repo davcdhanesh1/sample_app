@@ -24,6 +24,15 @@ describe 'User behaviour' do
       expect(@testuser).to respond_to(:ideas)
     end
 
+    it 'should respond to relationships' do
+      expect(@testuser).to respond_to(:relationships)
+      expect(@testuser).to respond_to(:reverse_relationships)
+      expect(@testuser).to respond_to(:followed_users)
+      expect(@testuser).to respond_to(:following?)
+      expect(@testuser).to respond_to(:follow!)
+      expect(@testuser).to respond_to(:unfollow!)
+    end
+
   end
 
   describe 'blank remember token' do
@@ -75,5 +84,44 @@ describe 'User behaviour' do
 
   end
 
+  describe 'following' do
+
+    let(:other_user) { FactoryGirl.create(:user) }
+
+    before(:each) do
+      @testuser.follow!(other_user)
+    end
+
+    it { expect(@testuser.followed_users).to include(other_user) }
+    it { expect(@testuser.following?(other_user)).to eq true }
+
+  end
+
+  describe 'unfollowing' do
+
+    let(:other_user) { FactoryGirl.create(:user) }
+
+    before(:each) do
+      @testuser.follow!(other_user)
+      @testuser.unfollow!(other_user)
+    end
+
+    it { expect(@testuser.followed_users).not_to include(other_user) }
+    it { expect(@testuser.following?(other_user)).to eq false }
+
+  end
+
+  describe 'followers' do
+
+    let(:other_user) { FactoryGirl.create(:user) }
+    before(:each) do
+      other_user.follow!(@testuser)
+    end
+
+    it { expect(@testuser.followers).to include(other_user) }
+    it { expect(other_user.following?(@testuser)).to eq true }
+
+
+  end
 
 end

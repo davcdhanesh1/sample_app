@@ -8,7 +8,7 @@ RSpec.describe Micropost, :type => :model do
       @user = FactoryGirl.create(:user)
       @valid_micropost = @user.microposts.build(content: 'This is test post')
       @invalid_micropost_type_1 = @user.microposts.build(content: '')
-      @invalid_micropost_type_2 = @user.microposts.build(content: '#'*190)
+      @invalid_micropost_type_2 = @user.microposts.build(content: '#'*501)
     end
 
     after(:all) do
@@ -23,7 +23,7 @@ RSpec.describe Micropost, :type => :model do
       expect(@valid_micropost).to respond_to(:user_id)
     end
 
-    it 'should have length of minimum 8 char and max 100 chars' do
+    it 'should have length of minimum 8 char and maximum 8 char' do
       expect(@invalid_micropost_type_1).not_to be_valid
       expect(@invalid_micropost_type_2).not_to be_valid
     end
