@@ -1,0 +1,15 @@
+<li>
+  <%= link_to idea.user.name, idea.user %>
+  <span class="content">
+    <%= idea.content %>
+  </span>
+  <span class="timestamp">
+    Posted <%= time_ago_in_words(idea.created_at) %> ago.
+  </span>
+  <span>
+    <% if current_user == idea.user %>
+    <%= link_to 'delete', micropost_path(idea), method: :delete%>
+    <% end %>
+  </span>
+
+</li>

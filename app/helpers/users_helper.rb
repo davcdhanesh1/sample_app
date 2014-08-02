@@ -4,7 +4,4 @@ module UsersHelper
     gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}"
     image_tag(gravatar_url,alt: 'pic unavailaible',class: 'gravatar', size: 70 * 100)
   end
-
-
-
 end

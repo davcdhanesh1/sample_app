@@ -9,7 +9,16 @@
   </aside>
 
   <aside class="span8">
-    <%= render 'users/feeds' %>
+
+    <h2><%= no_of_ideas @user %></h2>
+    <% if @ideas.any? %>
+        <%= will_paginate @ideas, class: 'center' %>
+        <ol class="microposts">
+          <%= render :partial => 'microposts/idea', collection: @ideas %>
+        </ol>
+        <%= will_paginate @ideas, class: 'center' %>
+    <% end %>
+
   </aside>
 
 </div>

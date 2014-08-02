@@ -3,7 +3,14 @@ class MicropostsController < ApplicationController
   before_action :signed_in_user, only: [:create, :destroy]
 
   def destroy
-    head :ok
+
+    @post_to_be_deleted = Micropost.find(params[:id])
+
+    if @post_to_be_deleted.user == current_user
+      @post_to_be_deleted.destroy
+    end
+    redirect_to current_user
+
   end
 
   def create
@@ -16,6 +23,7 @@ class MicropostsController < ApplicationController
     else
       render 'static_pages/post_new_idea'
     end
+
   end
 
   private

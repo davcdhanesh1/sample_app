@@ -1,8 +1,0 @@
-<h2><%= no_of_feeds @user %></h2>
-<% if @feeds.any? %>
-    <%= will_paginate @feeds, class: 'center' %>
-    <ol class="microposts">
-      <%= render @feeds %>
-    </ol>
-    <%= will_paginate @feeds, class: 'center' %>
-<% end %>

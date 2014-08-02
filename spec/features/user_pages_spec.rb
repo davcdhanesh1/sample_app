@@ -77,7 +77,7 @@ RSpec.describe 'UserPages', :type => :feature do
       it { should have_content(@user.name) }
       it { should have_title(@user.name) }
       it 'should have microposts count' do
-        expect(page).to have_content("50 feeds")
+        expect(page).to have_content("50 ideas")
       end
       it 'should have micropost pagination link' do
         all_microposts_from_page_1 = Micropost.paginate(page: 1)

@@ -21,7 +21,7 @@ describe 'User behaviour' do
     end
 
     it 'should respond to feeds' do
-      expect(@testuser).to respond_to(:feeds)
+      expect(@testuser).to respond_to(:ideas)
     end
 
   end
@@ -68,9 +68,9 @@ describe 'User behaviour' do
 
 
     it "should include it's one's own microposts in one's feeds" do
-      expect(@testuser.feeds).to include(older_micropost)
-      expect(@testuser.feeds).to include(newer_micropost)
-      expect(@testuser.feeds).not_to include(other_micropost)
+      expect(@testuser.ideas).to include(older_micropost)
+      expect(@testuser.ideas).to include(newer_micropost)
+      expect(@testuser.ideas).not_to include(other_micropost)
     end
 
   end
