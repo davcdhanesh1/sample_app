@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
 
-  resources :users
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
   resources :sessions, only: [:new,:create,:destroy]
   resources :microposts, only: [:destroy,:create]
+  resources :relationships, only: [:destroy,:create]
 
   match '/post_new_idea', to: 'static_pages#post_new_idea', via: 'get'
   match '/help', to: 'static_pages#help', via: 'get'
@@ -12,6 +17,8 @@ Rails.application.routes.draw do
   match '/signin', to:'sessions#new', via:'get'
   match '/signup', to:'users#new', via:'get'
   match '/signout', to:'sessions#destroy', via:'delete'
+
+
 
 
   # Users as resource

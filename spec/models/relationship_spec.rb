@@ -32,5 +32,4 @@ RSpec.describe Relationship, :type => :model do
     it { expect(relationship).not_to be_valid }
   end
 
-
 end

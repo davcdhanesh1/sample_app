@@ -1,0 +1,23 @@
+<% provide(:title, @title) %>
+<div class="row">
+  <aside class="span4">
+    <section>
+      <%= gravatar_for @user %>
+      <h1><%= link_to @user.name, @user %></h1>
+      <span>Microposts: <%= @user.microposts.count %></span>
+    </section>
+    <%= render 'users/follow_form' %>
+  </aside>
+
+  <div class="span8">
+    <h3><%= @title %></h3>
+    <% if @users.any? %>
+        <%= will_paginate %>
+        <ul class="users">
+          <%= render @users %>
+        </ul>
+        <%= will_paginate %>
+    <% end %>
+  </div>
+
+</div>

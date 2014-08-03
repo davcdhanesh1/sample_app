@@ -1,2 +1,9 @@
-<%= gravatar_for @user %>
-<h2><%= @user.name %></h2>
+<section>
+  <%= gravatar_for @user %>
+  <h1><%= @user.name %></h1>
+</section>
+<section>
+  <%= link_to "Following: #{@user.followed_users.count}", following_user_path(@user)%>
+  <%= link_to "Followers: #{@user.followers.count}", followers_user_path(@user)%>
+</section>
+

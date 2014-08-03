@@ -6,34 +6,45 @@ require File.expand_path('../config/application', __FILE__)
 Rails.application.load_tasks
 
 namespace :db do
-  desc "Fill database with sample data"
-
-  task populate_user: :environment do
-    User.create!(name: 'davcdhanesh1',
-                 email: 'davcdhanesh1@gmail.com',
-                 password: 'iamdhanesh1',
-                 password_confirmation: 'iamdhanesh1')
-    49.times do |n|
-      name = Faker::Name.name
-      email = "example-#{n+1}@test.com"
-      password = "password"
-      User.create!(name: name,
-                   email: email,
-                   password: password,
-                   password_confirmation: password)
-    end
+  desc 'Fill database with sample data'
+  task populate: :environment do
+    make_users
+    make_microposts
+    make_relationships
   end
 end
 
-namespace :db do
-  desc 'Fill database with sample posts'
-  task populate_microposts: :environment do
+def make_users
+  User.create!(name: 'davcdhanesh1',
+               email: 'davcdhanesh1@gmail.com',
+               password: 'iamdhanesh1',
+               password_confirmation: 'iamdhanesh1')
+  49.times do |n|
+    name = Faker::Name.name
+    email = "example-#{n+1}@test.com"
+    password = "password"
+    User.create!(name: name,
+                 email: email,
+                 password: password,
+                 password_confirmation: password)
+  end
+end
+
+def make_microposts
     users = User.limit(6)
     users.each do |user|
       32.times do
         content = Faker::Lorem.sentence(5)
-        Micropost.create!(content:content,user:user)
+        Micropost.create!(content: content, user: user)
       end
     end
-  end
+end
+
+def make_relationships
+  users = User.all
+  user  = users.first
+  followed_users = users[25..50]
+  followers      = users[3..24]
+  followed_users.each { |followed| user.follow!(followed) }
+  followers.each      { |follower| follower.follow!(user) }
 end

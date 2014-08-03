@@ -4,12 +4,10 @@
 
     <div class="container">
 
-      <%= link_to "Sample App", root_url, id: "logo" %>
       <% if signed_in? %>
-          <div id="header_user_name">
-            <%= "Hi... #{current_user.name}" %>
-          </div>
-
+          <%= link_to "Hi... #{current_user.name}", current_user, id:'header_user_name' %>
+      <% else %>
+          <%= link_to "Sample App", root_url, id: "logo" %>
       <% end %>
 
 

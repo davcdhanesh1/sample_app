@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative '../../app/helpers/sessions_helper'
 
 RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
 
@@ -94,6 +95,7 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
 
       before(:each) do
         visit edit_user_path(user)
+
       end
 
       it 'should not have sign out link' do
@@ -173,7 +175,7 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
     describe 'authorization for micropost' do
 
       let(:user) { FactoryGirl.create(:user) }
-      let(:micropost) { FactoryGirl.create(:micropost)}
+      let(:micropost) { FactoryGirl.create(:micropost) }
 
       before(:each) do
         visit user_path(user)
@@ -191,6 +193,39 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
           delete micropost_path(micropost)
           expect(response).to redirect_to(signin_path)
         end
+      end
+
+    end
+
+    describe 'user following and followers' do
+
+      let(:user) { FactoryGirl.create(:user) }
+
+      describe 'visiting the following page' do
+        before { visit following_user_path(user) }
+        it { expect(page).to have_title(base_title + ' Sign In') }
+      end
+
+      describe 'visiting the followers page' do
+        before { visit followers_user_path(user) }
+        it { expect(page).to have_title(base_title + ' Sign In') }
+      end
+
+      describe 'following users' do
+
+        let(:user) { FactoryGirl.create(:user) }
+
+        it 'should redirect user to sign in page if not logged while doing destroying relationship' do
+          post relationships_path
+          expect(response).to redirect_to(signin_path)
+        end
+
+        it 'should redirect user to sign in page if not logged while creating relationshiop' do
+          delete relationship_path(1)
+          expect(response).to redirect_to(signin_path)
+        end
+
+
       end
 
     end

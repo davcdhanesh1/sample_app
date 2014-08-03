@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :signed_in_user, only: [:edit, :update, :show]
+  before_action :signed_in_user, only: [:edit, :update, :show, :following, :followers]
   before_action :correct_user, only: [:edit, :update]
 
   def index
@@ -46,6 +46,20 @@ class UsersController < ApplicationController
       render 'users/new'
     end
 
+  end
+
+  def following
+    @title = "Following"
+    @user = User.find(params[:id])
+    @users = @user.followed_users.paginate(page: params[:page])
+    render 'users/show_follow'
+  end
+
+  def followers
+    @title = "Followers"
+    @user = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'users/show_follow'
   end
 
 
