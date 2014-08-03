@@ -5,6 +5,13 @@
     <div class="container">
 
       <%= link_to "Sample App", root_url, id: "logo" %>
+      <% if signed_in? %>
+          <div id="header_user_name">
+            <%= "Hi... #{current_user.name}" %>
+          </div>
+
+      <% end %>
+
 
       <nav>
 
