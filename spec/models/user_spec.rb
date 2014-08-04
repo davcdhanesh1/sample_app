@@ -70,7 +70,7 @@ describe 'User behaviour' do
 
   end
 
-  describe 'feeds' do
+  describe 'ideas' do
     let!(:older_micropost) { FactoryGirl.create(:micropost, user: @testuser, created_at: 1.day.ago) }
     let!(:newer_micropost) { FactoryGirl.create(:micropost, user: @testuser, created_at: 1.hour.ago) }
     let(:other_micropost) { FactoryGirl.create(:micropost, user: FactoryGirl.create(:user)) }
@@ -81,6 +81,37 @@ describe 'User behaviour' do
       expect(@testuser.ideas).to include(newer_micropost)
       expect(@testuser.ideas).not_to include(other_micropost)
     end
+
+    describe 'microposts by the followed users' do
+
+      before(:all) do
+        @follower = FactoryGirl.create(:user)
+        @followed = FactoryGirl.create(:user)
+        @other_user = FactoryGirl.create(:user)
+        @follower_user_post = FactoryGirl.create(:micropost, user: @follower, content: 'follower post')
+        @followed_user_post = FactoryGirl.create(:micropost, user: @followed, content: 'followed user post')
+        @unfollowed_user_post = FactoryGirl.create(:micropost, user: @other_user, content: 'unfollowed user post')
+        @follower.follow!(@followed)
+      end
+
+      after(:all) do
+        @follower.destroy
+        @followed.destroy
+        @other_user.destroy
+      end
+
+      it 'should include microposts from followed_users' do
+        expect(@follower.ideas).to include(@followed_user_post)
+        expect(@follower.ideas).not_to include(@unfollowed_user_post)
+      end
+
+      it 'should not include microposts from unfollowed_users' do
+
+      end
+
+
+    end
+
 
   end
 

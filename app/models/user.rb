@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   end
 
   def ideas
-    microposts
+    Micropost.find_ideas_followed_by_user(self)
   end
 
   def following?(other_user)
@@ -46,6 +46,10 @@ class User < ActiveRecord::Base
 
   def create_remember_token
     self.remember_token = User.digest(User.new_remember_token)
+  end
+
+  def followed_users_ids
+    followed_users.map(&:id)
   end
 
 end

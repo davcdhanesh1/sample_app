@@ -4,4 +4,11 @@ class Micropost < ActiveRecord::Base
   validates :content , presence: true , length: {minimum: 8,maximum: 500}
   validates :user_id , presence: true
 
+  def self.find_ideas_followed_by_user(user)
+    followed_user_ids = 'SELECT followed_id FROM relationships
+                         WHERE follower_id = :user_id'
+    where("user_id in (#{followed_user_ids}) or user_id = :user_id",user_id: user.id)
+  end
+
+
 end
