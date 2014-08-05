@@ -122,7 +122,7 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
           end
 
           it 'should redirect the user to edit page after successfull sign in' do
-            expected_title = 'sample app | edit'
+            expected_title = "#{base_title} edit"
             expect(page).to have_title(expected_title)
           end
 

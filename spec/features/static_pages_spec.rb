@@ -11,7 +11,7 @@ RSpec.describe 'StaticPages', :type => :feature do
       end
 
       it 'should have the title as sample app |' do
-        expected_title = 'sample app |'
+        expected_title = "#{base_title}"
         should have_title(expected_title)
       end
       it 'should load the index page and display sign up page link' do

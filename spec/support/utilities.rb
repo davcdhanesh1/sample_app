@@ -13,7 +13,7 @@ def sign_in(user, options={})
 end
 
 def base_title
-  'sample app |'
+  'ScratchBox |'
 end
 
 def header
