@@ -15,8 +15,9 @@ RSpec.describe 'StaticPages', :type => :feature do
         should have_title(expected_title)
       end
       it 'should load the index page and display sign up page link' do
-        body = 'Welcome to Sample App This app is just to demonstrate how to develop using Ruby on Rails
-                For new registration, Sign up now! Existing user ? Sign in here'
+        body = 'ScratchBox Post New Idea Help About Contact Sign in Welcome to ScratchBox Share your ideas,
+                Expand your horizons For new registration, Sign up now! Existing user ?
+                Sign in here This site is maintained by Tripartite Inc. @copyright 2016'
         expected_msg = "#{body}"
         should have_content(expected_msg)
 
