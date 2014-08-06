@@ -4,16 +4,16 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
 # Use sqlite3 as the database for Active Record
+gem 'pg'
 group :development, :test do
-	gem 'sqlite3'
+#	gem 'sqlite3'
 	gem 'rspec-rails'
 end
 group :test do
 	gem 'selenium-webdriver','2.35.1'
 	gem 'capybara','2.2.0'
-  gem 'factory_girl_rails','4.2.0'
-  gem 'cucumber-rails', '1.4.0', :require => false
-  gem 'database_cleaner', github: 'bmabey/database_cleaner'
+	gem 'factory_girl_rails','4.2.0'
+	gem 'cucumber-rails', '1.4.0', :require => false
 end
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
@@ -55,7 +55,6 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 group :production do
-	gem 'pg','0.15.1'
 	gem 'rails_12factor','0.0.2'
 end
 

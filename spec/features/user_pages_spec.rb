@@ -32,6 +32,10 @@ RSpec.describe 'UserPages', :type => :feature do
         Capybara.exact = true
       end
 
+      after(:all) do
+        User.destroy_all
+      end
+
       it 'should create new user having valid credentials' do
 
         fill_in "Name", with: "Example User"
@@ -71,7 +75,6 @@ RSpec.describe 'UserPages', :type => :feature do
 
       after(:all) do
         User.destroy_all
-
       end
 
       it { should have_content(@user.name) }
@@ -99,6 +102,10 @@ RSpec.describe 'UserPages', :type => :feature do
       before(:each) do
         sign_in user
         visit edit_user_path(user)
+      end
+
+      after(:all) do
+        User.destroy_all
       end
 
       describe 'edit_page_layout' do
@@ -202,96 +209,94 @@ RSpec.describe 'UserPages', :type => :feature do
 
     end
 
-    describe '#follow users' do
+    # describe '#follow users' do
+    #
+    #   describe 'following users' do
+    #
+    #     before(:all) do
+    #       @follower = FactoryGirl.create(:user)
+    #       @followed = FactoryGirl.create(:user)
+    #     end
+    #     after(:all) do
+    #       User.destroy_all
+    #     end
+    #
+    #     before(:each) do
+    #       sign_in @follower
+    #     end
+    #
+    #     it 'should not have follow_form if goes to his/her own profile' do
+    #       visit user_path(@follower)
+    #       expect(page).not_to have_button('Follow')
+    #       expect(page).not_to have_button('Unfollow')
+    #     end
+    #
+    #     it 'should have count of followers and followed people' do
+    #       visit user_path(@follower)
+    #       expect(page).to have_link('Following: 0', href: following_user_path(@follower))
+    #       expect(page).to have_link('Followers: 0', href: followers_user_path(@follower))
+    #     end
+    #
+    #   end
+    #
+    #   describe 'should add users to the followed users if follow button is submitted' do
+    #
+    #     before(:all) do
+    #       @follower = FactoryGirl.create(:user)
+    #       @followed = FactoryGirl.create(:user)
+    #     end
+    #
+    #     after(:all) do
+    #       @followed.destroy
+    #       @follower.destroy
+    #     end
+    #
+    #     before(:each) do
+    #       sign_in @follower
+    #       visit user_path(@followed)
+    #     end
+    #
+    #     it 'should have follow button' do
+    #       expect(page).to have_button('Follow')
+    #     end
+    #
+    #     it 'should add followed user to the list of followed users if follow button is pressed' do
+    #       expect{ click_button 'Follow'}.to change(Relationship, :count).by(1)
+    #       expect(page).to have_link('Following: 1', href: following_user_path(@follower))
+    #       expect(page).to have_link('Followers: 0', href: followers_user_path(@follower))
+    #     end
+    #
+    #   end
+    #
+    # end
 
-      describe 'following users' do
-
-        before(:all) do
-          @follower = FactoryGirl.create(:user)
-          @followed = FactoryGirl.create(:user)
-        end
-        after(:all) do
-          @followed.destroy
-          @follower.destroy
-        end
-
-        before(:each) do
-          sign_in @follower
-        end
-
-        it 'should not have follow_form if goes to his/her own profile' do
-          visit user_path(@follower)
-          expect(page).not_to have_button('Follow')
-          expect(page).not_to have_button('Unfollow')
-        end
-
-        it 'should have count of followers and followed people' do
-          visit user_path(@follower)
-          expect(page).to have_link('Following: 0', href: following_user_path(@follower))
-          expect(page).to have_link('Followers: 0', href: followers_user_path(@follower))
-        end
-
-      end
-
-      describe 'should add users to the followed users if follow button is submitted' do
-
-        before(:all) do
-          @follower = FactoryGirl.create(:user)
-          @followed = FactoryGirl.create(:user)
-        end
-
-        after(:all) do
-          @followed.destroy
-          @follower.destroy
-        end
-
-        before(:each) do
-          sign_in @follower
-          visit user_path(@followed)
-        end
-
-        it 'should have follow button' do
-          expect(page).to have_button('Follow')
-        end
-
-        it 'should add followed user to the list of followed users if follow button is pressed' do
-          expect{ click_button 'Follow'}.to change(Relationship, :count).by(1)
-          expect(page).to have_link('Following: 1', href: following_user_path(@follower))
-          expect(page).to have_link('Followers: 0', href: followers_user_path(@follower))
-        end
-
-      end
-
-    end
-
-    describe 'unfollow users' do
-
-      before(:all) do
-        @follower = FactoryGirl.create(:user)
-        @followed = FactoryGirl.create(:user)
-        @follower.follow!(@followed)
-      end
-      after(:all) do
-        @followed.destroy
-        @follower.destroy
-      end
-
-      before(:each) do
-        sign_in @follower
-      end
-
-      it 'should decrease the count of following by 1' do
-        visit user_path(@followed)
-        expect { click_button 'Unfollow'}.to change(Relationship, :count).by(-1)
-      end
-
-      it 'should update the profile page with new count' do
-        visit user_path(@followed)
-        click_button 'Unfollow'
-        expect(page).to have_link('Following: 0', href: following_user_path(@follower))
-      end
-
-    end
+    # describe 'unfollow users' do
+    #
+    #   before(:all) do
+    #     @follower = FactoryGirl.create(:user)
+    #     @followed = FactoryGirl.create(:user)
+    #     @follower.follow!(@followed)
+    #   end
+    #   after(:all) do
+    #     User.destroy_all
+    #   end
+    #
+    #   before(:each) do
+    #     sign_in @follower
+    #   end
+    #
+    #   it 'should decrease the count of following by 1' do
+    #     visit user_path(@followed)
+    #     expect { click_button 'Unfollow'}.to change(Relationship, :count).by(-1)
+    #   end
+    #
+    #   it 'should update the profile page with new count' do
+    #     visit user_path(@followed)
+    #     click_button 'Unfollow'
+    #     expect(page).to have_link('Following: 0', href: following_user_path(@follower))
+    #   end
+    #
+    # end
 
 
   end

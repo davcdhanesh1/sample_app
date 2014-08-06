@@ -9,8 +9,8 @@ class RelationshipsController < ApplicationController
   end
 
   def destroy
-    @relationship_to_be_destroyed = current_user.relationships.find_by(params[:id])
-    @relationship_to_be_destroyed.destroy!
+    @relationship_to_be_destroyed = Relationship.find(params[:id])
+    @relationship_to_be_destroyed.destroy
     redirect_to current_user
   end
 
