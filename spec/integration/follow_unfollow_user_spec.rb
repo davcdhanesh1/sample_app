@@ -107,7 +107,6 @@ RSpec.describe 'follow_unfollow_user_integration_spec', :type => :feature do
       end
 
       it 'should remove followed user from the list of followed users if unfollow button is pressed' do
-        puts @followed.id
         expect { click_button 'Unfollow' }.to change(Relationship, :count).by(-1)
         expect(page).to have_link('Following: 0', href: following_user_path(@follower))
         expect(page).to have_link('Followers: 0', href: followers_user_path(@follower))
