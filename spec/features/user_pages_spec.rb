@@ -79,14 +79,14 @@ RSpec.describe 'UserPages', :type => :feature do
 
       it { should have_content(@user.name) }
       it { should have_title(@user.name) }
-      it 'should have microposts count' do
+      it 'should have ideas count' do
         expect(page).to have_content("50 ideas")
       end
 
-      it 'should have micropost pagination link' do
-        all_microposts_from_page_1 = Idea.paginate(page: 1)
-        all_microposts_from_page_1.each do |micropost|
-          expect(page).to have_content(micropost.content)
+      it 'should have idea pagination link' do
+        all_ideas_from_page_1 = Idea.paginate(page: 1)
+        all_ideas_from_page_1.each do |idea|
+          expect(page).to have_content(idea.content)
         end
       end
 

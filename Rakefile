@@ -9,7 +9,7 @@ namespace :db do
   desc 'Fill database with sample data'
   task populate: :environment do
     make_users
-    make_microposts
+    make_ideas
     make_relationships
   end
 end
@@ -30,7 +30,7 @@ def make_users
   end
 end
 
-def make_microposts
+def make_ideas
     users = User.limit(6)
     users.each do |user|
       32.times do

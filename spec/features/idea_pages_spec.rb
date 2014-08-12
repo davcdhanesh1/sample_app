@@ -26,7 +26,7 @@ RSpec.describe 'IdeaPages', :type => :feature do
       expect(page).not_to have_selector(error_selector)
     end
 
-    it 'should not increase the count of Microposts' do
+    it 'should not increase the count of Ideas' do
       expect { click_button 'Post' }.to change(Idea, :count).by(1)
     end
 

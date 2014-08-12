@@ -4,7 +4,7 @@
     <section>
       <%= gravatar_for @user %>
       <h1><%= link_to @user.name, @user %></h1>
-      <span>Microposts: <%= @user.microposts.count %></span>
+      <span>Ideas: <%= @user.ideas.count %></span>
     </section>
     <%= render 'users/follow_form' %>
   </aside>
