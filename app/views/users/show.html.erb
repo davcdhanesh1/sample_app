@@ -15,7 +15,7 @@
     <% if @ideas.any? %>
         <%= will_paginate @ideas, class: 'center' %>
         <ol class="microposts">
-          <%= render :partial => 'microposts/idea', collection: @ideas %>
+          <%= render :partial => 'ideas/idea', collection: @ideas %>
         </ol>
         <%= will_paginate @ideas, class: 'center' %>
     <% end %>

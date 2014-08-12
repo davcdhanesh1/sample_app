@@ -35,7 +35,7 @@ def make_microposts
     users.each do |user|
       32.times do
         content = Faker::Lorem.sentence(5)
-        Micropost.create!(content: content, user: user)
+        Idea.create!(content: content, user: user)
       end
     end
 end

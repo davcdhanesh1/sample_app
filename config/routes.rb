@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     end
   end
   resources :sessions, only: [:new,:create,:destroy]
-  resources :microposts, only: [:destroy,:create]
+  resources :ideas, only: [:destroy,:create]
   resources :relationships, only: [:destroy,:create]
 
   match '/post_new_idea', to: 'static_pages#post_new_idea', via: 'get'

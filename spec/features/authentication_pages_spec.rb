@@ -172,25 +172,25 @@ RSpec.describe "AuthenticationPages", :type => [:feature, :request] do
 
     end
 
-    describe 'authorization for micropost' do
+    describe 'authorization for idea' do
 
       let(:user) { FactoryGirl.create(:user) }
-      let(:micropost) { FactoryGirl.create(:micropost) }
+      let(:idea) { FactoryGirl.create(:idea) }
 
       before(:each) do
         visit user_path(user)
       end
 
-      describe 'user is not logged in but tries to access the micropost create' do
+      describe 'user is not logged in but tries to access the idea create' do
         it 'should redirect user to the signin page' do
-          post microposts_path
+          post ideas_path
           expect(response).to redirect_to(signin_path)
         end
       end
 
-      describe 'user is not logged in but tries to access the micropost destroy action' do
+      describe 'user is not logged in but tries to access the idea destroy action' do
         it 'should redirect user to the signin page' do
-          delete micropost_path(micropost)
+          delete idea_path(idea)
           expect(response).to redirect_to(signin_path)
         end
       end

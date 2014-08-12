@@ -1,4 +1,4 @@
-class Micropost < ActiveRecord::Base
+class Idea < ActiveRecord::Base
   belongs_to :user
   default_scope -> { order('created_at DESC') }
   validates :content , presence: true , length: {minimum: 8,maximum: 500}

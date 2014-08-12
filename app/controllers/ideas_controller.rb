@@ -1,10 +1,10 @@
-class MicropostsController < ApplicationController
+class IdeasController < ApplicationController
 
   before_action :signed_in_user, only: [:create, :destroy]
 
   def destroy
 
-    @post_to_be_deleted = Micropost.find(params[:id])
+    @post_to_be_deleted = Idea.find(params[:id])
 
     if @post_to_be_deleted.user == current_user
       @post_to_be_deleted.destroy
@@ -16,8 +16,8 @@ class MicropostsController < ApplicationController
   def create
 
     @post_content = params[:post_content]
-    @new_micropost = current_user.microposts.new(micropost_params)
-    if @new_micropost.save
+    @new_idea = current_user.ideas.new(idea_params)
+    if @new_idea.save
       flash[:success] = 'Your new idea is now live to world...'
       redirect_to current_user
     else
@@ -28,8 +28,8 @@ class MicropostsController < ApplicationController
 
   private
 
-  def micropost_params
-    params.require(:micropost).permit(:content)
+  def idea_params
+    params.require(:idea).permit(:content)
   end
 
 

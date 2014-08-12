@@ -47,23 +47,23 @@ describe 'User behaviour' do
 
   end
 
-  describe 'microposts' do
+  describe 'ideas' do
 
-    let!(:older_micropost) { FactoryGirl.create(:micropost, user: @testuser, created_at: 1.day.ago) }
-    let!(:newer_micropost) { FactoryGirl.create(:micropost, user: @testuser, created_at: 1.hour.ago) }
+    let!(:older_idea) { FactoryGirl.create(:idea, user: @testuser, created_at: 1.day.ago) }
+    let!(:newer_idea) { FactoryGirl.create(:idea, user: @testuser, created_at: 1.hour.ago) }
 
-    it 'should respond to micropost associated with it' do
-      expect(@testuser).to respond_to(:microposts)
+    it 'should respond to idea associated with it' do
+      expect(@testuser).to respond_to(:ideas)
     end
 
-    it 'should delete all the microposts associated with it, if user is deleted' do
+    it 'should delete all the ideas associated with it, if user is deleted' do
 
-      all_microposts = @testuser.microposts.to_a
+      all_ideas = @testuser.ideas.to_a
       @testuser.destroy
-      expect(all_microposts).not_to be_empty
+      expect(all_ideas).not_to be_empty
 
-      all_microposts.each do |micropost|
-        expect(Micropost.where(id: micropost.id)).to be_empty
+      all_ideas.each do |idea|
+        expect(Idea.where(id: idea.id)).to be_empty
       end
 
     end
@@ -71,26 +71,26 @@ describe 'User behaviour' do
   end
 
   describe 'ideas' do
-    let!(:older_micropost) { FactoryGirl.create(:micropost, user: @testuser, created_at: 1.day.ago) }
-    let!(:newer_micropost) { FactoryGirl.create(:micropost, user: @testuser, created_at: 1.hour.ago) }
-    let(:other_micropost) { FactoryGirl.create(:micropost, user: FactoryGirl.create(:user)) }
+    let!(:older_idea) { FactoryGirl.create(:idea, user: @testuser, created_at: 1.day.ago) }
+    let!(:newer_idea) { FactoryGirl.create(:idea, user: @testuser, created_at: 1.hour.ago) }
+    let(:other_idea) { FactoryGirl.create(:idea, user: FactoryGirl.create(:user)) }
 
 
-    it "should include it's one's own microposts in one's feeds" do
-      expect(@testuser.ideas).to include(older_micropost)
-      expect(@testuser.ideas).to include(newer_micropost)
-      expect(@testuser.ideas).not_to include(other_micropost)
+    it "should include it's one's own ideas in one's feeds" do
+      expect(@testuser.ideas).to include(older_idea)
+      expect(@testuser.ideas).to include(newer_idea)
+      expect(@testuser.ideas).not_to include(other_idea)
     end
 
-    describe 'microposts by the followed users' do
+    describe 'ideas by the followed users' do
 
       before(:all) do
         @follower = FactoryGirl.create(:user)
         @followed = FactoryGirl.create(:user)
         @other_user = FactoryGirl.create(:user)
-        @follower_user_post = FactoryGirl.create(:micropost, user: @follower, content: 'follower post')
-        @followed_user_post = FactoryGirl.create(:micropost, user: @followed, content: 'followed user post')
-        @unfollowed_user_post = FactoryGirl.create(:micropost, user: @other_user, content: 'unfollowed user post')
+        @follower_user_idea = FactoryGirl.create(:idea, user: @follower, content: 'follower post')
+        @followed_user_idea = FactoryGirl.create(:idea, user: @followed, content: 'followed user post')
+        @unfollowed_user_idea = FactoryGirl.create(:idea, user: @other_user, content: 'unfollowed user post')
         @follower.follow!(@followed)
       end
 
@@ -100,12 +100,12 @@ describe 'User behaviour' do
         @other_user.destroy
       end
 
-      it 'should include microposts from followed_users' do
-        expect(@follower.ideas).to include(@followed_user_post)
-        expect(@follower.ideas).not_to include(@unfollowed_user_post)
+      it 'should include ideas from followed_users' do
+        expect(@follower.feeds).to include(@followed_user_idea)
+        expect(@follower.feeds).not_to include(@unfollowed_user_idea)
       end
 
-      it 'should not include microposts from unfollowed_users' do
+      it 'should not include ideas from unfollowed_users' do
 
       end
 

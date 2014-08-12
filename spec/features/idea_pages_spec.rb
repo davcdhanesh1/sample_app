@@ -2,7 +2,7 @@ require 'rails_helper'
 require_relative '../support/utilities'
 require_relative '../../app/helpers/users_helper'
 
-RSpec.describe 'MicropostPages', :type => :feature do
+RSpec.describe 'IdeaPages', :type => :feature do
 
   before(:all) do
     @user = FactoryGirl.create(:user)
@@ -12,13 +12,13 @@ RSpec.describe 'MicropostPages', :type => :feature do
     @user.destroy
   end
 
-  describe 'creating a micropost with valid information' do
-    let!(:valid_micropost_content) { 'Finally a simple test idea twitter' }
+  describe 'creating a idea with valid information' do
+    let!(:valid_idea_content) { 'Finally a simple test idea twitter' }
 
     before { sign_in @user }
     before(:each) do
       visit post_new_idea_path
-      fill_in 'micropost_content', with: valid_micropost_content
+      fill_in 'idea_content', with: valid_idea_content
     end
 
     it 'should should not have errors' do
@@ -27,7 +27,7 @@ RSpec.describe 'MicropostPages', :type => :feature do
     end
 
     it 'should not increase the count of Microposts' do
-      expect { click_button 'Post' }.to change(Micropost, :count).by(1)
+      expect { click_button 'Post' }.to change(Idea, :count).by(1)
     end
 
     it 'should redirect user to his/her profile page to show last tweet' do
@@ -38,14 +38,14 @@ RSpec.describe 'MicropostPages', :type => :feature do
 
   end
 
-  describe 'creating a micropost with invalid information' do
+  describe 'creating a idea with invalid information' do
 
-    let!(:invalid_micropost_content) { '' }
+    let!(:invalid_idea_content) { '' }
 
     before { sign_in @user }
     before(:each) do
       visit post_new_idea_path
-      fill_in 'micropost_content', with: invalid_micropost_content
+      fill_in 'idea_content', with: invalid_idea_content
     end
 
     it 'should should have errors' do
@@ -53,17 +53,17 @@ RSpec.describe 'MicropostPages', :type => :feature do
       expect(page).to have_selector(error_selector)
     end
 
-    it 'should not increase the count of Microposts' do
-      expect { click_button 'Post' }.not_to change(Micropost, :count)
+    it 'should not increase the count of Idea' do
+      expect { click_button 'Post' }.not_to change(Idea, :count)
     end
 
   end
 
-  describe 'deleting a micropost' do
+  describe 'deleting a idea' do
 
     before(:all) do
       @current_user = FactoryGirl.create(:user)
-      @current_user_feed = FactoryGirl.create(:micropost, user: @current_user, content: 'test micropost to destroy')
+      @current_user_feed = FactoryGirl.create(:idea, user: @current_user, content: 'test idea to destroy')
     end
 
     after(:all) do
@@ -80,8 +80,8 @@ RSpec.describe 'MicropostPages', :type => :feature do
       expect(page).to have_link('delete')
     end
 
-    it 'should destroy the micropost created by current user' do
-      expect { click_link 'delete' }.to change(Micropost, :count).by(-1)
+    it 'should destroy the idea created by current user' do
+      expect { click_link 'delete' }.to change(Idea, :count).by(-1)
     end
 
   end

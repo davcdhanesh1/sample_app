@@ -8,7 +8,7 @@
   </span>
   <span>
     <% if current_user == idea.user %>
-    <%= link_to 'delete', micropost_path(idea), method: :delete%>
+    <%= link_to 'delete', idea_path(idea), method: :delete%>
     <% end %>
   </span>
 

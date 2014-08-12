@@ -8,8 +8,8 @@ FactoryGirl.define do
     password_confirmation 'iamdhanesh1'
   end
 
-  factory :micropost do
-    sequence(:content) {|n| "This is #{n} post" }
+  factory :idea do
+    sequence(:content) {|n| "This is #{n} idea" }
     user
   end
 

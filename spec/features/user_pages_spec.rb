@@ -70,7 +70,7 @@ RSpec.describe 'UserPages', :type => :feature do
 
       before(:all) do
         @user = FactoryGirl.create(:user)
-        50.times { FactoryGirl.create(:micropost, user: @user) }
+        50.times { FactoryGirl.create(:idea, user: @user) }
       end
 
       after(:all) do
@@ -84,7 +84,7 @@ RSpec.describe 'UserPages', :type => :feature do
       end
 
       it 'should have micropost pagination link' do
-        all_microposts_from_page_1 = Micropost.paginate(page: 1)
+        all_microposts_from_page_1 = Idea.paginate(page: 1)
         all_microposts_from_page_1.each do |micropost|
           expect(page).to have_content(micropost.content)
         end

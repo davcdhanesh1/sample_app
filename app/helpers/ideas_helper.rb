@@ -1,4 +1,4 @@
-module MicropostsHelper
+module IdeasHelper
   def no_of_ideas(user)
     pluralize(user.ideas.count,'idea')
   end
